@@ -28,18 +28,6 @@ function wait(seconds) {
 	})
 }
 
-const getPropertyOwnersIds = (owners) => {
-	
-	let result = '';
-
-		for(item in owners){
-			item == 0 ? '': result += ', '
-			result += owners[item].id.toString(); //in this case, IMOBZI API uses only 'id', not db_id.
-			
-		}
-	
-	return result
-}
 
 
 const getAllpropertiesIds = async () => {
@@ -151,6 +139,6 @@ const getPropertiesMainData = async () => {
 		return finallyPropertiesMainData;
 }
 
-module.exports = getPropertiesMainData();
+module.exports = { getPropertiesMainData, getAllpropertiesIds };
 
 

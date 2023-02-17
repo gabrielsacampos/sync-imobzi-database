@@ -1,6 +1,6 @@
 'use strict';
 
-const propertiesData = require('../../../api-imobzi/properties')
+const propertiesData = require('../../../api-imobzi/properties').getPropertiesMainData()
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {

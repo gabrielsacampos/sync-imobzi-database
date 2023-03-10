@@ -1,5 +1,4 @@
 const axios = require('axios');
-const { response } = require('express');
 require('dotenv').config()
 const urlInvoices = (page = 1) => {return `https://api.imobzi.app/v1/invoices?page=${page}`} 
 const urlInvoiceDetail = (invoiceId) => {return `https://api.imobzi.app/v1/invoice/${invoiceId}`}

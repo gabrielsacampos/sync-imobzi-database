@@ -1,5 +1,5 @@
 'use strict';
-const tenantsPromise = require("../../../api-imobzi/tenants").getMasterTenants()
+const tenantsPromise = require("../../../api-imobzi/tenants").getPersonTenants()
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {

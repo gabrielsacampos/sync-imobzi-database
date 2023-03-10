@@ -15,16 +15,10 @@ let formatHeader = cursor => { return {
 }	
 
 
-function wait(seconds) {
-	return new Promise(resolve => {
-		setTimeout(resolve, seconds * 1000)
-	})
-}
-
 const getPersonTenants = async () => {
 	try{
 		console.log("=============================================")
-		console.log("R U N N I N G getAllLeasesIds...")
+		console.log("R U N N I N G getting Tenants as Person")
 		console.log("=============================================")
 		const allDataResponse = [];
 		let newCursor = null; // to gett the ids, we also need to handle with pagination.
@@ -70,4 +64,54 @@ const getPersonTenants = async () => {
 	}
 }
 
-module.exports = { getPersonTenants }
+const getOrganizationTenants = async () => {
+	try{
+		console.log("=============================================")
+		console.log("R U N N I N G getting Tenants as Organnization...")
+		console.log("=============================================")
+		const allDataResponse = [];
+		let newCursor = null; // to gett the ids, we also need to handle with pagination.
+		
+		
+		let response = await axios.get(urlLeases(), formatHeader())
+		allDataResponse.push(...response.data.leases);
+		newCursor = response.data.cursor
+		
+
+			while(newCursor){
+			
+				response = await axios.get(urlLeases(), formatHeader(newCursor))
+				allDataResponse.push(...response.data.leases);
+				newCursor = response.data.cursor;
+			}
+		
+		
+		const tenantOrganization = [];
+
+			for(const item in allDataResponse){
+				const lease = allDataResponse[item]
+				const tenant = lease.tenants[0];
+				
+				if(tenant.type == "organization") tenantOrganization.push({tenant: tenant.db_id, lease: lease.db_id})
+			} 
+			console.log(tenantOrganization.length, "tenants as organization found!")
+		
+		return tenantOrganization
+		
+	}catch(error){
+		if (error.response) {
+				console.log(error.response.data);
+				console.log(error.response.status);
+				console.log(error.response.headers);
+		  } else if (error.request) {
+				console.log(error.request);
+		  } else {
+				console.log('Error', error.message);
+		  }
+		  console.log(error.config);
+		;
+	}
+}
+
+
+module.exports = { getPersonTenants, getOrganizationTenants }
